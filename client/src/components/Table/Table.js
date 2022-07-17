@@ -1,21 +1,40 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import "./styles/index.css";
 import {showAllCars} from "../http/API";
+import DropDownBtn from "../DropDownBtn/DropDownBtn";
 
 const Table = () => {
+  const [initialDB, setInitialDB] = useState([]);
   const [localDB, setLocalDB] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const viewCars = async () => {
     const response = await showAllCars();
-    setLocalDB(response.data);
+    setInitialDB(response.data);
+    if (filteredData.length === 0) {
+      setLocalDB(response.data);
+    } else {
+      setLocalDB(filteredData);
+    }
   }
 
   useEffect(() => {
     return viewCars;
   });
 
+  const showFilteredDB = useCallback((call) => {
+    filteredData.push(call);
+  })
+
+  const resetFilterDB = () => {
+    setFilteredData([]);
+    setLocalDB(initialDB);
+  }
+
   return (
     <>
+      <DropDownBtn db={localDB} setDB={showFilteredDB}/>
+      <button onClick={() => resetFilterDB()}>Сбросить фильтры</button>
       <table className={"table-cars"}>
         <thead>
           <tr>

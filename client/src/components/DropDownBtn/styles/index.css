@@ -1,0 +1,13 @@
+.show {
+  position: absolute;
+  display: block;
+}
+
+.hide {
+  position: absolute;
+  display: none;
+}
+
+#btn-dropdown {
+  background-color: white;
+}
