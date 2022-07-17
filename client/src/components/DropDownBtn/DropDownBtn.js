@@ -39,10 +39,23 @@ const DropDownBtn = (item) => {
       let countKeys = key.length;
 
       for (let i = 0; i < countKeys; i++) {
-        if (key[i] === isColumn) { //obj[keys[i]]
+        if (key[i] === isColumn) {
           if (isCondition === "contain") {
-            if (item[key[i]] === valueInputFilter)
+            if (item[key[i]] == valueInputFilter) {
               setDB(item);
+            }
+          } else if (isCondition === "more") {
+            if (item[key[i]] > valueInputFilter) {
+              setDB(item);
+            }
+          } else if (isCondition === "less") {
+            if (item[key[i]] < valueInputFilter) {
+              setDB(item);
+            }
+          } else if (isCondition === "equal") {
+            if (item[key[i]] == valueInputFilter) {
+              setDB(item);
+            }
           }
         }
       }
