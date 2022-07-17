@@ -1,0 +1,11 @@
+.table-cars {
+  /*border: 1px solid black;*/
+}
+
+.table-cars thead tr td {
+  border: 1px solid black;
+}
+
+.table-cars tbody {
+  /*background-color:green;*/
+}
