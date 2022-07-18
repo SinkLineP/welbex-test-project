@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import "./styles/index.css";
 
 const DropDownBtn = (item) => {
-  const { db, setDB } = item;
+  const { db, setDB, getInput } = item;
   const [isShowBtn, setShowBtn] = useState("hide");
   const enterColumn = [
     {title: "name", content: "Название"},
@@ -29,9 +29,7 @@ const DropDownBtn = (item) => {
 
   const filter = () => {
     const valueInputFilter = isValueInput.target.value;
-    // console.log(isColumn);
-    // console.log(isCondition);
-    // console.log(valueInputFilter);
+    getInput(valueInputFilter);
 
     db.map((item) => {
       // const {name, count, distance} = item;

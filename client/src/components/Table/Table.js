@@ -2,11 +2,14 @@ import React, {useState, useEffect, useCallback} from "react";
 import "./styles/index.css";
 import {showAllCars} from "../http/API";
 import DropDownBtn from "../DropDownBtn/DropDownBtn";
+import Pagination from "../Pagination/Pagination";
 
 const Table = () => {
   const [initialDB, setInitialDB] = useState([]);
   const [localDB, setLocalDB] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [currentPageTable, setCurrentPageTable] = useState(1);
+  const [valueSearch, setValueSerch] = useState("");
 
   const viewCars = async () => {
     const response = await showAllCars();
@@ -31,9 +34,36 @@ const Table = () => {
     setLocalDB(initialDB);
   }
 
+  const getValueInput = useCallback((value) => {
+    setValueSerch(value);
+  });
+
+  const countCarsPerPage = 10;
+  const currentPage = currentPageTable;
+  const lastPostIndex = currentPage * countCarsPerPage;
+  const firstPostIndex = lastPostIndex - countCarsPerPage;
+  const currentFilterCars = localDB.slice(firstPostIndex, lastPostIndex);
+
+
+  const paginate = (pageNumbers) => {
+    setCurrentPageTable(pageNumbers);
+    console.log(currentFilterCars);
+  }
+
+  const nextPage = () => {
+    const addCurrentPage = currentPage + 1 > localStorage.getItem("countPages") ? 1 : currentPage + 1;
+    setCurrentPageTable(addCurrentPage);
+    console.log("First: " + firstPostIndex + "\nLast: " + lastPostIndex);
+  }
+
+  const prevPage = () => {
+    const addCurrentPage = currentPage - 1 < 1 ? localStorage.getItem("countPages") : currentPage - 1;
+    setCurrentPageTable(Number(addCurrentPage));
+  }
+
   return (
     <>
-      <DropDownBtn db={localDB} setDB={showFilteredDB}/>
+      <DropDownBtn db={localDB} setDB={showFilteredDB} getInput={getValueInput}/>
       <button onClick={() => resetFilterDB()}>Сбросить фильтры</button>
       <table className={"table-cars"}>
         <thead>
@@ -45,22 +75,30 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {
-            localDB.map((item) => {
-              return (
-                <>
-                  <tr>
-                    <td>{item.date.split('T')[0]}</td>
-                    <td>{item.name}</td>
-                    <td>{item.count}</td>
-                    <td>{item.distance}</td>
-                  </tr>
-                </>
-              );
-            })
-          }
+        {
+          currentFilterCars.map((item) => {
+            return (
+              <>
+                <tr>
+                  <td>{item.date.split('T')[0]}</td>
+                  <td>{item.name}</td>
+                  <td>{item.count}</td>
+                  <td>{item.distance}</td>
+                </tr>
+              </>
+            );
+          })
+        }
         </tbody>
       </table>
+      <Pagination
+        postPerPage={countCarsPerPage}
+        totalPosts={valueSearch === "" ? localDB.length : localDB.length}
+        paginate={paginate}
+        prevPage={prevPage}
+        nextPage={nextPage}
+        currentPage={currentPage}
+      />
     </>
   );
 }
