@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Button} from "react-bootstrap";
 import "./styles/index.css";
 
 const DropDownBtn = (item) => {
@@ -18,6 +19,7 @@ const DropDownBtn = (item) => {
   const [isColumn, setColumn] = useState("");
   const [isCondition, setCondition] = useState("");
   const [isValueInput, setValueInput] = useState("");
+  const [isActive, setActive] = useState(false);
 
   const showBtn = () => {
     if (isShowBtn === "hide") {
@@ -32,7 +34,6 @@ const DropDownBtn = (item) => {
     getInput(valueInputFilter);
 
     db.map((item) => {
-      // const {name, count, distance} = item;
       const key = Object.keys(item);
       let countKeys = key.length;
 
@@ -62,37 +63,65 @@ const DropDownBtn = (item) => {
 
   return (
     <>
-      <button onClick={showBtn}>Фильтры</button>
-      <div id={"btn-dropdown"} className={isShowBtn}>
-        <p>Выберите столбец</p>
-        <ul>
-          {
-            enterColumn.map((item, key) => {
-              const {title, content} = item;
-              return (
-                <li key={key}><button onClick={() => setColumn(title)}>{content}</button></li>
-              )
-            })
-          }
-        </ul>
-        <hr />
-        <p>Выберите условие</p>
-        <ul>
-          {
-            condition.map((item, key) => {
-              const {title, content} = item;
-              return (
-                <li key={key}><button onClick={() => setCondition(title)}>{content}</button></li>
-              )
-            })
-          }
-        </ul>
-        <hr />
-        <div>
-          <input placeholder={"Введите значение для фильтрации.."} onChange={(e) => setValueInput(e)}/>
-          <button onClick={() => filter()}>Search</button>
+      <Button className={"mb-2"} onClick={showBtn} variant="primary">Фильтры</Button>{' '}
+        <div id={"btn-dropdown"} className={"" + isShowBtn}>
+          <p>Выберите столбец</p>
+          <ul>
+            {
+              enterColumn.map((item, key) => {
+                const {title, content} = item;
+                return (
+                  <li className={"hide-dote"} key={key}>
+                    <Button
+                      variant={"success option-btn"}
+                      onClick={(e) => {
+                        setColumn(title)
+                        return e.currentTarget.classList.toggle("active");
+                      }}
+                    >
+                      {content}
+                    </Button>
+                  </li>
+                )
+              })
+            }
+          </ul>
+          <hr />
+          <p>Выберите условие</p>
+          <ul>
+            {
+              condition.map((item, key) => {
+                const {title, content} = item;
+                return (
+                  <li className={"hide-dote"} key={key}>
+                    <Button
+                      className={"option-btn"}
+                      variant={"success"}
+                      onClick={(e) => {
+                        setCondition(title);
+                        return e.currentTarget.classList.toggle("active");
+                      }}
+                    >
+                      {content}
+                    </Button>
+                  </li>
+                )
+              })
+            }
+          </ul>
+          <hr />
+          <div className="input-group mb-1">
+            <input
+              className="form-control"
+              placeholder={"Введите значение для фильтрации.."}
+              onChange={(e) => setValueInput(e)}
+              aria-describedby="button-addon2"
+            />
+            <div className="input-group-append">
+              <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => filter()}>Search</button>
+            </div>
+          </div>
         </div>
-      </div>
     </>
   );
 }

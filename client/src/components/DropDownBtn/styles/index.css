@@ -1,6 +1,10 @@
 .show {
   position: absolute;
   display: block;
+  -webkit-box-shadow: 11px 9px 13px 10px rgba(34, 60, 80, 0.43);
+  -moz-box-shadow: 11px 9px 13px 10px rgba(34, 60, 80, 0.43);
+  box-shadow: 11px 9px 13px 10px rgba(34, 60, 80, 0.43);
+  padding: 10px;
 }
 
 .hide {
@@ -11,3 +15,19 @@
 #btn-dropdown {
   background-color: white;
 }
+
+.hide-dote {
+  list-style-type: none;
+}
+
+.option-btn {
+  min-width: 140px;
+  margin: 2px;
+}
+
+.search {
+  display: inline-block;
+}
+
+
+

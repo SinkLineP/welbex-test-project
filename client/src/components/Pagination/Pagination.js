@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles/index.css";
+import {Button} from "react-bootstrap";
 
 const Pagination = (
   {
@@ -23,20 +24,20 @@ const Pagination = (
   return (
     <div className={"centerPagination"}>
       <ul className={"pagination"}>
-        <li className={"page-item pos-prev"}>
-          <button onClick={prevPage}>Назад</button>
+        <li className={"page-item pos-prev pagination-btn"}>
+          <Button variant={"success"} onClick={prevPage}>Назад</Button>
         </li>
         {
           pageNumbers.map((number) => (
-            <li className={"page-item"} key={number}>
-              <a onClick={() => paginate(number)}>
+            <li key={number} className={"pagination-btn"}>
+              <Button variant={"dark"} onClick={() => paginate(number)}>
                 {number}
-              </a>
+              </Button>
             </li>
           ))
         }
         <li className={"page-item pos-next"}>
-          <button onClick={nextPage}>Далее</button>
+          <Button variant={"success"} onClick={nextPage}>Далее</Button>
         </li>
       </ul>
     </div>

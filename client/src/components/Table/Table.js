@@ -3,13 +3,14 @@ import "./styles/index.css";
 import {showAllCars} from "../http/API";
 import DropDownBtn from "../DropDownBtn/DropDownBtn";
 import Pagination from "../Pagination/Pagination";
+import {Button} from "react-bootstrap";
 
 const Table = () => {
   const [initialDB, setInitialDB] = useState([]);
   const [localDB, setLocalDB] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [currentPageTable, setCurrentPageTable] = useState(1);
-  const [valueSearch, setValueSerch] = useState("");
+  const [valueSearch, setValueSearch] = useState("");
 
   const viewCars = async () => {
     const response = await showAllCars();
@@ -35,7 +36,7 @@ const Table = () => {
   }
 
   const getValueInput = useCallback((value) => {
-    setValueSerch(value);
+    setValueSearch(value);
   });
 
   const countCarsPerPage = 10;
@@ -64,8 +65,8 @@ const Table = () => {
   return (
     <>
       <DropDownBtn db={localDB} setDB={showFilteredDB} getInput={getValueInput}/>
-      <button onClick={() => resetFilterDB()}>Сбросить фильтры</button>
-      <table className={"table-cars"}>
+      <Button className={"mb-2"} onClick={() => resetFilterDB()} variant={"danger"}>Сбросить фильтры</Button>
+      <table className={"table"}>
         <thead>
           <tr>
             <td>Дата</td>
