@@ -29,5 +29,9 @@
   display: inline-block;
 }
 
-
+.style-check-filters {
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: 5px;
+}
 

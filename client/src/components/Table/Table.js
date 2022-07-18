@@ -12,6 +12,7 @@ const Table = () => {
   const [currentPageTable, setCurrentPageTable] = useState(1);
   const [valueSearch, setValueSearch] = useState("");
 
+
   const viewCars = async () => {
     const response = await showAllCars();
     setInitialDB(response.data);
@@ -33,6 +34,7 @@ const Table = () => {
   const resetFilterDB = () => {
     setFilteredData([]);
     setLocalDB(initialDB);
+    localStorage.setItem("show-filters", "false");
   }
 
   const getValueInput = useCallback((value) => {

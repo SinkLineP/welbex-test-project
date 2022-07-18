@@ -19,7 +19,8 @@ const DropDownBtn = (item) => {
   const [isColumn, setColumn] = useState("");
   const [isCondition, setCondition] = useState("");
   const [isValueInput, setValueInput] = useState("");
-  const [isActive, setActive] = useState(false);
+  const [isVisible, setVisible] = useState();
+  const storageShow = localStorage.getItem("show-filters");
 
   const showBtn = () => {
     if (isShowBtn === "hide") {
@@ -65,6 +66,37 @@ const DropDownBtn = (item) => {
     <>
       <Button className={"mb-2"} onClick={showBtn} variant="primary">Фильтры</Button>{' '}
         <div id={"btn-dropdown"} className={"" + isShowBtn}>
+          {isColumn === "" && isCondition === "" && isValueInput === "" && storageShow === "false" ?
+            (
+              <p>Тут будут отображены выбранные фильтры...</p>
+            )
+          :
+            (
+              <div>
+                <span>{storageShow === "true" ? "Вы выбрали:" : "Тут будут отображены выбранные фильтры..."}</span>
+                <span class={"style-check-filters"}>
+                  {
+                    enterColumn.map((e) => {
+                      if (e.title === isColumn && storageShow === "true") {
+                        return e.content;
+                      }
+                    })
+                  }
+                </span>
+                <span className={"style-check-filters"}>
+                  {
+                    condition.map((e) => {
+                      if (e.title === isCondition && storageShow === "true") {
+                        return e.content;
+                      }
+                    })
+                  }
+                </span>
+              </div>
+            )
+          }
+          <hr />
+
           <p>Выберите столбец</p>
           <ul>
             {
@@ -73,10 +105,11 @@ const DropDownBtn = (item) => {
                 return (
                   <li className={"hide-dote"} key={key}>
                     <Button
+                      className={""}
                       variant={"success option-btn"}
                       onClick={(e) => {
                         setColumn(title)
-                        return e.currentTarget.classList.toggle("active");
+                        localStorage.setItem("show-filters", "true");
                       }}
                     >
                       {content}
@@ -95,11 +128,11 @@ const DropDownBtn = (item) => {
                 return (
                   <li className={"hide-dote"} key={key}>
                     <Button
-                      className={"option-btn"}
-                      variant={"success"}
+                      className={""}
+                      variant={"success option-btn"}
                       onClick={(e) => {
                         setCondition(title);
-                        return e.currentTarget.classList.toggle("active");
+                        localStorage.setItem("show-filters", "true");
                       }}
                     >
                       {content}
